@@ -1719,25 +1719,33 @@ const static CGFloat kMotionEffectExtent = 15.0f;
         return;
     }
     
-    UIInterpolatingMotionEffect *xAxis = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x"
-                                                                                         type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
-    [xAxis setMinimumRelativeValue:@(-kMotionEffectExtent)];
-    [xAxis setMaximumRelativeValue:@(kMotionEffectExtent)];
+    if (self.defaultMotionEffectsEnabled) {
     
-    UIInterpolatingMotionEffect *yAxis = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y"
-                                                                                         type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
-    [yAxis setMinimumRelativeValue:@(-kMotionEffectExtent)];
-    [yAxis setMaximumRelativeValue:@(kMotionEffectExtent)];
-    
-    UIMotionEffectGroup *motionEffect = [UIMotionEffectGroup new];
-    [motionEffect setMotionEffects:@[xAxis, yAxis]];
-    
-    DTRelease(xAxis);
-    DTRelease(yAxis);
-    
-    [self addMotionEffect:motionEffect];
-    
-    DTRelease(motionEffect);
+        UIInterpolatingMotionEffect *xAxis = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x"
+                                                                                             type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+        [xAxis setMinimumRelativeValue:@(-kMotionEffectExtent)];
+        [xAxis setMaximumRelativeValue:@(kMotionEffectExtent)];
+        
+        UIInterpolatingMotionEffect *yAxis = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y"
+                                                                                             type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+        [yAxis setMinimumRelativeValue:@(-kMotionEffectExtent)];
+        [yAxis setMaximumRelativeValue:@(kMotionEffectExtent)];
+        
+        UIMotionEffectGroup *motionEffect = [UIMotionEffectGroup new];
+        [motionEffect setMotionEffects:@[xAxis, yAxis]];
+        
+        DTRelease(xAxis);
+        DTRelease(yAxis);
+        
+        [self addMotionEffect:motionEffect];
+        
+        DTRelease(motionEffect);
+    } else {
+        NSArray *effects = self.motionEffects;
+        for (UIMotionEffect *effect in effects) {
+            [self removeMotionEffect:effect];
+        }
+    }
 }
 
 #pragma mark - Default Animation

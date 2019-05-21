@@ -157,6 +157,12 @@ typedef void (^DTAlertViewTextDidChangeBlock) (DTAlertView *alertView, NSString 
  */
 @property (nonatomic, retain) UIColor *progressBarColor;
 
+
+/**
+ Used to control whether or not motion effects are used.
+ */
+@property (assign, nonatomic, getter=areDefaultMotionEffectsEnabled) BOOL defaultMotionEffectsEnabled;
+
 /** @brief Initial for class method with delegate.
  *
  * @param title The alert view title. appears in the title bar.
